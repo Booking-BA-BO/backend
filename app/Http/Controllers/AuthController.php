@@ -39,7 +39,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return ['message' => 'Hibás bejelentkezés.'];
+            return ['errors' => ['email' => ['Hibás bejelentkezés.']]];
         }
 
         $token = $user->createToken($user->name);
