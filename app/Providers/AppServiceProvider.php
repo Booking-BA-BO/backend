@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Foglalas;
+use App\Models\Rendez;
+use App\Observers\FoglalasObserver;
+use App\Observers\RendezObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,8 +21,8 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot()
     {
-        //
+        Foglalas::observe(FoglalasObserver::class);
     }
 }
