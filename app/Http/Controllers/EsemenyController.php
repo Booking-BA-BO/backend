@@ -8,8 +8,45 @@ use Illuminate\Support\Facades\DB;
 
 class EsemenyController extends Controller
 {
-    public function getUserEvents($user_id){
-        return Esemeny::all()
-        ->where('user_id', '=', $user_id);        
+
+    //csak a felső hármat adja vissza amelyek legutóbb módosítva lettek
+    public function getTopUserEvents($user_id){
+        $data = DB::table('esemenies')
+        ->select('*')
+        ->where('user_id', '=', $user_id)
+        ->orderBy('updated_at', 'DESC')
+        ->limit(3)
+        ->get();
+        
+        return $data;
     }
+
+    //az összeset adja vissza:
+    public function getAllUserEvents($user_id){
+        $data = DB::table('esemenies')
+        ->select('*')
+        ->where('user_id', '=', $user_id)
+        ->get();
+        
+        return $data;
+    }
+
+
+    //minden eventet visszaad felhasználótól függetlenül
+    public function getEvents(){
+        return Esemeny::all();      
+    }
+
+    //adott esemény minden adatát adja vissza
+    public function getSpecificEvent($esemeny_id){
+        $data = DB::table('esemenies')
+        ->where('esemeny_id', '=', $esemeny_id)
+        ->get();
+        
+        return $data;
+    }
+
+    /*public function getSpecificEvent(){
+        
+    }*/
 }
