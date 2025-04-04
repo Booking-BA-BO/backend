@@ -24,12 +24,16 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-// Esemény táblára vonatkozó végpontok
 
+// Esemény táblára vonatkozó végpontok
 Route::get('/topevents/{user_id}', [EsemenyController::class, 'getTopUserEvents']);
 Route::get('/events', [EsemenyController::class, 'getEvents']);
 Route::get('/specific-events/{event_id}', [EsemenyController::class, 'getSpecificEvent']);
-// post, patch, delete ++
+Route::get('/reservation/{egyeni_vegpont}', [EsemenyController::class, 'getEventDetails']);
+Route::get('/user/{egyeni_vegpont}', [EsemenyController::class, 'returnUser']);
+
+
+// post, patch, delete ++ reservation/{user.egyeni_vegpont}
 
 // Rendez táblára vonatkozó végpontok
 Route::get('/all-event-dates/{event_id}', [RendezController::class, 'getSpecEventDates']);

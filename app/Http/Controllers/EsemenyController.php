@@ -46,6 +46,27 @@ class EsemenyController extends Controller
         return $data;
     }
 
+    //minden felhasználó minden adatát visszaadja:
+        public function returnUser($egyeni_vegpont){
+            $data = DB::table('users')
+            ->where('egyeni_vegpont', '=', $egyeni_vegpont)
+            ->select('*')
+            ->get();
+    
+            return $data;
+        }
+
+    //foglalasi oldal adatok betoltesehez szüks vegpont lekerdezese:
+    public function getEventDetails($egyeni_vegpont){
+        $data = DB::table('users')
+        ->where('egyeni_vegpont', '=', $egyeni_vegpont)
+        ->join('esemenies', 'users.id', '=', 'esemenies.user_id')
+        ->join('rendezs', 'esemenies.esemeny_id', '=', 'rendezs.esemeny_id')
+        ->get();
+
+        return $data;
+    }
+
     /*public function getSpecificEvent(){
         
     }*/
