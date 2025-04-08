@@ -50,7 +50,7 @@ class EsemenyController extends Controller
         public function returnUser($egyeni_vegpont){
             $data = DB::table('users')
             ->where('egyeni_vegpont', '=', $egyeni_vegpont)
-            ->select('*')
+            ->select('name', 'email')
             ->get();
     
             return $data;
@@ -61,7 +61,6 @@ class EsemenyController extends Controller
         $data = DB::table('users')
         ->where('egyeni_vegpont', '=', $egyeni_vegpont)
         ->join('esemenies', 'users.id', '=', 'esemenies.user_id')
-        ->join('rendezs', 'esemenies.esemeny_id', '=', 'rendezs.esemeny_id')
         ->get();
 
         return $data;
