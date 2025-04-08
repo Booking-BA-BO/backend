@@ -9,7 +9,7 @@ class Esemeny extends Model
 {
     /** @use HasFactory<\Database\Factories\EsemenyFactory> */
     use HasFactory;
-
+    protected $table = 'esemeny';
     protected $primaryKey = 'esemeny_id';
 
     protected $fillable = [

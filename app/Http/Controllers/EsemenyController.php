@@ -11,7 +11,7 @@ class EsemenyController extends Controller
 
     //csak a felső hármat adja vissza amelyek legutóbb módosítva lettek
     public function getTopUserEvents($user_id){
-        $data = DB::table('esemenies')
+        $data = DB::table('esemeny')
         ->select('*')
         ->where('user_id', '=', $user_id)
         ->orderBy('updated_at', 'DESC')
@@ -39,7 +39,7 @@ class EsemenyController extends Controller
 
     //adott esemény minden adatát adja vissza
     public function getSpecificEvent($esemeny_id){
-        $data = DB::table('esemenies')
+        $data = DB::table('esemeny')
         ->where('esemeny_id', '=', $esemeny_id)
         ->get();
         
@@ -60,14 +60,14 @@ class EsemenyController extends Controller
     public function getEventDetails($egyeni_vegpont){
         $data = DB::table('users')
         ->where('egyeni_vegpont', '=', $egyeni_vegpont)
-        ->join('esemenies', 'users.id', '=', 'esemenies.user_id')
+        ->join('esemenny', 'users.id', '=', 'esemeny.user_id')
         ->get();
 
         return $data;
     }
 
     public function getUsersEvents($user_id){
-        $data = DB::table('esemenies')
+        $data = DB::table('esemeny')
         ->where('user_id', '=', $user_id)
         ->get();
 

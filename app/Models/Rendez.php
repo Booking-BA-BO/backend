@@ -9,7 +9,7 @@ class Rendez extends Model
 {
     /** @use HasFactory<\Database\Factories\RendezFactory> */
     use HasFactory;
-    
+    protected $table = 'rendez';
     protected $primaryKey = 'rendezveny_id';
 
     protected $fillable = [

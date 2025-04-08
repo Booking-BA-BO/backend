@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('db')->check('db > 0');
             $table->timestamps();
 
-            $table->foreign('rendezveny_id')->references('rendezveny_id')->on('rendezs')->onDelete('cascade');
+            $table->foreign('rendezveny_id')->references('rendezveny_id')->on('rendez')->onDelete('cascade');
         });
 
         DB::statement('ALTER TABLE foglalas AUTO_INCREMENT = 1');

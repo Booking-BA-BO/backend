@@ -9,7 +9,7 @@ class Foglalas extends Model
 {
     /** @use HasFactory<\Database\Factories\FoglalasFactory> */
     use HasFactory;
-
+    protected $table = 'foglalas';
     protected $primaryKey = 'foglalas_id';
 
     protected $fillable = [

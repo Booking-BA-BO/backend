@@ -12,17 +12,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rendezs', function (Blueprint $table) {
+        Schema::create('rendez', function (Blueprint $table) {
             $table->id('rendezveny_id');
             $table->integer('esemeny_id');
             $table->date('datum')->check('datum > CURRENT_DATE');
             $table->boolean('nyitva')->default(false);
             $table->timestamps();
     
-            $table->foreign('esemeny_id')->references('esemeny_id')->on('esemenies')->onDelete('cascade');
+            $table->foreign('esemeny_id')->references('esemeny_id')->on('esemeny')->onDelete('cascade');
         });
 
-        DB::statement('ALTER TABLE rendezs AUTO_INCREMENT = 1');
+        DB::statement('ALTER TABLE rendez AUTO_INCREMENT = 1');
     }
 
     /**
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rendezs');
+        Schema::dropIfExists('rendez');
     }
 };

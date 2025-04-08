@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('esemenies', function (Blueprint $table) {
+        Schema::create('esemeny', function (Blueprint $table) {
             $table->integer('esemeny_id')->autoIncrement();
             $table->unsignedBigInteger('user_id');
             $table->string('nev', 50);
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->primary('esemeny_id');
         });
 
-        DB::statement('ALTER TABLE esemenies AUTO_INCREMENT = 1');
+        DB::statement('ALTER TABLE esemeny AUTO_INCREMENT = 1');
     }
 
     /**
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('esemenies');
+        Schema::dropIfExists('esemeny');
     }
 };
