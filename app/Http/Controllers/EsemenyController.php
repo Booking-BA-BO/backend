@@ -23,7 +23,7 @@ class EsemenyController extends Controller
 
     //az összeset adja vissza:
     public function getAllUserEvents($user_id){
-        $data = DB::table('esemenies')
+        $data = DB::table('esemeny')
         ->select('*')
         ->where('user_id', '=', $user_id)
         ->get();
@@ -60,7 +60,7 @@ class EsemenyController extends Controller
     public function getEventDetails($egyeni_vegpont){
         $data = DB::table('users')
         ->where('egyeni_vegpont', '=', $egyeni_vegpont)
-        ->join('esemenny', 'users.id', '=', 'esemeny.user_id')
+        ->join('esemeny', 'users.id', '=', 'esemeny.user_id')
         ->get();
 
         return $data;
