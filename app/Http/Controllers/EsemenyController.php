@@ -66,7 +66,15 @@ class EsemenyController extends Controller
         return $data;
     }
 
+    public function getUsersEvents($user_id){
+        $data = DB::table('esemenies')
+        ->where('user_id', '=', $user_id)
+        ->get();
+
+        return $data;
+    }
+
     /*public function getSpecificEvent(){
-        
+        getUsersEvents
     }*/
 }

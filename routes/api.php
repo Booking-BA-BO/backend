@@ -28,6 +28,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 // Esemény táblára vonatkozó végpontok
 Route::get('/topevents/{user_id}', [EsemenyController::class, 'getTopUserEvents']);
 Route::get('/events', [EsemenyController::class, 'getEvents']);
+Route::get('/events/{user_id}', [EsemenyController::class, 'getUsersEvents']);
 Route::get('/specific-events/{event_id}', [EsemenyController::class, 'getSpecificEvent']);
 Route::get('/reservation/{egyeni_vegpont}', [EsemenyController::class, 'getEventDetails']);
 Route::get('/user-data/{egyeni_vegpont}', [EsemenyController::class, 'returnUser']);
