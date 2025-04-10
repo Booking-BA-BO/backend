@@ -33,11 +33,12 @@ Route::get('/specific-events/{event_id}', [EsemenyController::class, 'getSpecifi
 Route::get('/reservation/{egyeni_vegpont}', [EsemenyController::class, 'getEventDetails']);
 Route::get('/user-data/{egyeni_vegpont}', [EsemenyController::class, 'returnUser']);
 
+Route::patch('/modify-user-data/{user_id}', [EsemenyController::class, 'modifyUserData']);
 
 // post, patch, delete ++ reservation/{user.egyeni_vegpont}
 
 // Rendez táblára vonatkozó végpontok
 Route::get('/all-event-dates/{event_id}', [RendezController::class, 'getSpecEventDates']);
 
-// Foglalas táblára vonatkozó végpontok
+// Foglalas táblára vonatkozó végpontok modifyUserData
 Route::get('/', [FoglalasController::class, '']);
