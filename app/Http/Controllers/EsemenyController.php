@@ -108,6 +108,37 @@ class EsemenyController extends Controller
         ]);
     }
 
+    public function postNewEventType(Request $request){
+        $validated = $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'nev' => 'required|string|max:50',
+            'leiras' => 'required|string',
+            'hely' => 'required|string|max:50',
+            'kapacitas' => 'required|integer|min:1',
+            'ar' => 'required|integer|min:0',
+            'foglalastol' => 'nullable|integer|min:1',
+            'foglalasig' => 'nullable|integer|min:1',
+        ]);
+
+        $validated['foglalastol'] = $validated['foglalastol'] ?? 90;
+        $validated['foglalasig'] = $validated['foglalasig'] ?? 1;
+
+        Esemeny::create([
+            'user_id' => $validated['user_id'],
+            'nev' => $validated['nev'],
+            'leiras' => $validated['leiras'],
+            'hely' => $validated['hely'],
+            'kapacitas' => $validated['kapacitas'],
+            'ar' => $validated['ar'],
+            'foglalastol' => $validated['foglalastol'],
+            'foglalasig' => $validated['foglalasig'],
+        ]);
+
+        return response()->json([
+            'message' => 'Az új esemény felvitele sikeres volt',
+        ]);
+    }
+
     /*public function getSpecificEvent(){
         getUsersEvents
     }*/
