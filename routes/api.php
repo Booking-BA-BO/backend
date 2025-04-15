@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EsemenyController;
 use App\Http\Controllers\FoglalasController;
 use App\Http\Controllers\PostController;
@@ -42,3 +43,7 @@ Route::get('/all-event-dates/{event_id}', [RendezController::class, 'getSpecEven
 
 // Foglalas táblára vonatkozó végpontok modifyUserData
 Route::get('/', [FoglalasController::class, '']);
+
+
+//email küldés
+Route::post('/contact', [ContactController::class, 'send']);
