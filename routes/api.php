@@ -34,6 +34,7 @@ Route::get('/reservation/{egyeni_vegpont}', [EsemenyController::class, 'getEvent
 Route::get('/user-data/{egyeni_vegpont}', [EsemenyController::class, 'returnUser']);
 
 Route::patch('/modify-user-data/{user_id}', [EsemenyController::class, 'modifyUserData']);
+Route::post('/new-event', [EsemenyController::class, 'postNewEventType']);
 
 // post, patch, delete ++ reservation/{user.egyeni_vegpont}
 
