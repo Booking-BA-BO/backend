@@ -108,7 +108,8 @@ class EsemenyController extends Controller
         ]);
     }
 
-    public function postNewEventType(Request $request){
+    public function postNewEventType(Request $request)
+    {
         $validated = $request->validate([
             'user_id' => 'required|integer|exists:users,id',
             'nev' => 'required|string|max:50',
@@ -139,7 +140,8 @@ class EsemenyController extends Controller
         ]);
     }
 
-    public function modifyEventData(Request $request, $event_id){
+    public function modifyEventData(Request $request, $event_id)
+    {
         $event = Esemeny::findOrFail($event_id);
 
         $validated = $request->validate([
@@ -168,13 +170,37 @@ class EsemenyController extends Controller
         ]);
     }
 
-    public function getSpecEventTimes($event_id){
+    public function getSpecEventTimes($event_id)
+    {
         $data = DB::table('rendez')
             ->select('*')
             ->where('esemeny_id', '=', $event_id)
             ->get();
 
         return $data;
+    }
+
+
+    public function postEventTimes(Request $request)
+    {
+        $validated = $request->validate([
+            'esemeny_id' => 'required|integer|exists:esemenyek,id',
+            'idopontok' => 'required|array|min:1',
+            'idopontok.*.datum' => 'required|date',
+            'idopontok.*.nyitva' => 'required|boolean',
+        ]);
+    
+        foreach ($validated['idopontok'] as $idopont) {
+            Rendez::create([
+                'esemeny_id' => $validated['esemeny_id'],
+                'datum' => $idopont['datum'],
+                'nyitva' => $idopont['nyitva'],
+            ]);
+        }
+    
+        return response()->json([
+            'message' => 'Időpontok sikeresen mentve.',
+        ]);
     }
 
     /*public function modifyEventData(){

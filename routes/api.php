@@ -30,6 +30,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::get('/topevents/{user_id}', [EsemenyController::class, 'getTopUserEvents']);
 Route::get('/events', [EsemenyController::class, 'getEvents']);
 Route::get('/spec-events-hosts/{event_id}', [EsemenyController::class, 'getSpecEventTimes']);
+
+
+
 Route::get('/events/{user_id}', [EsemenyController::class, 'getUsersEvents']);
 Route::get('/specific-events/{event_id}', [EsemenyController::class, 'getSpecificEvent']);
 Route::get('/reservation/{egyeni_vegpont}', [EsemenyController::class, 'getEventDetails']);
@@ -39,6 +42,8 @@ Route::patch('/modify-user-data/{user_id}', [EsemenyController::class, 'modifyUs
 Route::patch('/modify-event/{event_id}', [EsemenyController::class, 'modifyEventData']);
 
 Route::post('/new-event', [EsemenyController::class, 'postNewEventType']);
+//x hosszú tömb dátum felvitelére képes
+Route::post('/event-times', [EsemenyController::class, 'postEventTimes']);
 
 // post, patch, delete ++ reservation/{user.egyeni_vegpont}
 
