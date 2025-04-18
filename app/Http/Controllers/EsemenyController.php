@@ -139,7 +139,36 @@ class EsemenyController extends Controller
         ]);
     }
 
-    /*public function getSpecificEvent(){
+    public function modifyEventData(Request $request, $event_id){
+        $event = Esemeny::findOrFail($event_id);
+
+        $validated = $request->validate([
+            'nev' => 'required|string|max:50',
+            'leiras' => 'required|string',
+            'hely' => 'required|string|max:50',
+            'kapacitas' => 'required|integer|min:1',
+            'ar' => 'required|integer|min:0',
+            'foglalastol' => 'nullable|integer|min:1',
+            'foglalasig' => 'nullable|integer|min:1',
+        ]);
+
+        $event->nev = $validated['nev'] ?? $event->nev;
+        $event->leiras = $validated['leiras'] ?? $event->leiras;
+        $event->hely = $validated['hely'] ?? $event->hely;
+        $event->kapacitas = $validated['kapacitas'] ?? $event->kapacitas;
+        $event->ar = $validated['ar'] ?? $event->ar;
+        $event->foglalastol = $validated['foglalastol'] ?? $event->foglalastol;
+        $event->foglalasig = $validated['foglalasig'] ?? $event->foglalasig;
+
+        $event->save();
+
+        return response()->json([
+            'message' => 'Adatok sikeresen frissítve',
+            'event' => $event,
+        ]);
+    }
+
+    /*public function modifyEventData(){
         getUsersEvents
     }*/
 }
