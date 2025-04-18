@@ -168,6 +168,15 @@ class EsemenyController extends Controller
         ]);
     }
 
+    public function getSpecEventTimes($event_id){
+        $data = DB::table('rendez')
+            ->select('*')
+            ->where('esemeny_id', '=', $event_id)
+            ->get();
+
+        return $data;
+    }
+
     /*public function modifyEventData(){
         getUsersEvents
     }*/
