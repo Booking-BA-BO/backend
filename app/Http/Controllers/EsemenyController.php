@@ -203,6 +203,16 @@ class EsemenyController extends Controller
         ]);
     }
 
+    public function allHostDates($egyeni_vegpont){
+        $data = DB::table('rendez')
+        ->join('esemeny', 'rendez.esemeny_id', '=', 'esemeny.esemeny_id')
+        ->join('users', 'esemeny.user_id', '=', 'users.id')
+        ->where('users.egyeni_vegpont', '=', $egyeni_vegpont)
+        ->get();
+
+        return $data;
+    }
+
     /*public function modifyEventData(){
         getUsersEvents
     }*/
