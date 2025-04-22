@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('vezetek_nev', 50)->nullable();
             $table->string('kereszt_nev', 50)->nullable();
             $table->string('password', 255);
+            $table->timestamp('password_change')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('egyeni_vegpont', 5)->unique();
             $table->unsignedBigInteger('telefon')->unique()->nullable();
             $table->rememberToken();

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('kapacitas')->check('kapacitas > 0');
             $table->integer('ar')->check('ar >= 0');
             $table->integer('foglalastol')->default(90)->check('foglalastol > 0');
-            $table->integer('foglalasig')->default(1)->check('foglalasig > foglalastol AND foglalasig > 0');
+            $table->integer('foglalasig')->default(1)->check('foglalasig < foglalastol AND foglalasig > 0');
             $table->timestamps();
     
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
