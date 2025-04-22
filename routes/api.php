@@ -54,6 +54,7 @@ Route::get('/all-event-dates/{event_id}', [RendezController::class, 'getSpecEven
 // Foglalas táblára vonatkozó végpontok modifyUserData
 Route::get('/', [FoglalasController::class, '']);
 
+Route::post('/add-event', [EsemenyController::class, 'storeEventHost']);
 
 //email küldés
 Route::post('/contact', [ContactController::class, 'send']);

@@ -24,9 +24,9 @@ class EsemenyFactory extends Factory
             'hely' => $this->faker->city(),
             'kapacitas' => $this->faker->numberBetween(1, 1000),
             'ar' => $this->faker->numberBetween(0, 50000),
-            'foglalastol' => $this->faker->numberBetween(1, 365),
+            'foglalastol' => $this->faker->numberBetween(2, 365),
             'foglalasig' => function (array $attributes) {
-                return $this->faker->numberBetween($attributes['foglalastol'] + 1, 366);
+                return $this->faker->numberBetween(1, $attributes['foglalastol'] - 1);
             },
         ];
     }

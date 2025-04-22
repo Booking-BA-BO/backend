@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Esemeny;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Rendez;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class EsemenyController extends Controller
 {
@@ -212,6 +214,23 @@ class EsemenyController extends Controller
 
         return $data;
     }
+
+    public function storeEventHost(Request $request)
+    {
+    $request->validate([
+        'esemeny_id' => 'required|integer',
+        'datum' => 'required|date|after:today',
+        'nyitva' => 'required|boolean',
+    ]);
+    $data = $request->all();
+    Rendez::create([
+        'esemeny_id' => $data['esemeny_id'],
+        'datum' => Carbon::createFromFormat('Y-m-d H:i:s', $data['datum']),
+        'nyitva' => $data['nyitva'] ?? false,
+    ]);
+    return response()->json(['message' => 'Esemény sikeresen mentve'], 201);
+    }
+
 
     /*public function modifyEventData(){
         getUsersEvents
