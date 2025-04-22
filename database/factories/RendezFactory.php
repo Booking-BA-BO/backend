@@ -19,7 +19,7 @@ class RendezFactory extends Factory
     {
         return [
             'esemeny_id' => Esemeny::all()->random()->esemeny_id,
-            'datum' => $this->faker->dateTimeBetween('+1 days', '+2 years')->format('Y-m-d'),
+            'datum' => $this->faker->dateTimeBetween('+1 days', '+2 years')->format('Y-m-d H:i:s'),
             'nyitva' => false,
         ];
     }

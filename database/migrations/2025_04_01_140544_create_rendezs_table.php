@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('rendez', function (Blueprint $table) {
             $table->id('rendezveny_id');
             $table->integer('esemeny_id');
-            $table->date('datum')->check('datum > CURRENT_DATE');
+            $table->datetime('datum')->check('datum > CURRENT_TIMESTAMP');
             $table->boolean('nyitva')->default(false);
             $table->timestamps();
     
