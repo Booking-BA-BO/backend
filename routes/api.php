@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EsemenyController;
 use App\Http\Controllers\FoglalasController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RendezController;
 use Illuminate\Http\Request;
@@ -56,3 +57,8 @@ Route::post('/add-event', [EsemenyController::class, 'storeEventHost']);
 
 //email küldés
 Route::post('/contact', [ContactController::class, 'send']);
+
+Route::post('/send-email', [MailController::class, 'sendEmail']);
+
+
+
