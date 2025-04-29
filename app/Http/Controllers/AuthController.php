@@ -17,7 +17,7 @@ class AuthController extends Controller
         ]);
     
         // Jelszó hashelése
-        /* $fields['password'] = bcrypt($fields['password']); */
+        $fields['password'] = Hash::make($fields['password']);
     
         // Felhasználó létrehozása
         $user = User::create($fields);
