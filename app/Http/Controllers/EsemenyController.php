@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Esemeny;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Rendez;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class EsemenyController extends Controller
 {
@@ -108,7 +110,8 @@ class EsemenyController extends Controller
         ]);
     }
 
-    public function postNewEventType(Request $request){
+    public function postNewEventType(Request $request)
+    {
         $validated = $request->validate([
             'user_id' => 'required|integer|exists:users,id',
             'nev' => 'required|string|max:50',
@@ -139,7 +142,97 @@ class EsemenyController extends Controller
         ]);
     }
 
-    /*public function getSpecificEvent(){
+    public function modifyEventData(Request $request, $event_id)
+    {
+        $event = Esemeny::findOrFail($event_id);
+
+        $validated = $request->validate([
+            'nev' => 'required|string|max:50',
+            'leiras' => 'required|string',
+            'hely' => 'required|string|max:50',
+            'kapacitas' => 'required|integer|min:1',
+            'ar' => 'required|integer|min:0',
+            'foglalastol' => 'nullable|integer|min:1',
+            'foglalasig' => 'nullable|integer|min:1',
+        ]);
+
+        $event->nev = $validated['nev'] ?? $event->nev;
+        $event->leiras = $validated['leiras'] ?? $event->leiras;
+        $event->hely = $validated['hely'] ?? $event->hely;
+        $event->kapacitas = $validated['kapacitas'] ?? $event->kapacitas;
+        $event->ar = $validated['ar'] ?? $event->ar;
+        $event->foglalastol = $validated['foglalastol'] ?? $event->foglalastol;
+        $event->foglalasig = $validated['foglalasig'] ?? $event->foglalasig;
+
+        $event->save();
+
+        return response()->json([
+            'message' => 'Adatok sikeresen frissítve',
+            'event' => $event,
+        ]);
+    }
+
+    public function getSpecEventTimes($event_id)
+    {
+        $data = DB::table('rendez')
+            ->select('*')
+            ->where('esemeny_id', '=', $event_id)
+            ->get();
+
+        return $data;
+    }
+
+
+    public function postEventTimes(Request $request)
+    {
+        $validated = $request->validate([
+            'esemeny_id' => 'required|integer|exists:esemenyek,id',
+            'idopontok' => 'required|array|min:1',
+            'idopontok.*.datum' => 'required|date',
+            'idopontok.*.nyitva' => 'required|boolean',
+        ]);
+    
+        foreach ($validated['idopontok'] as $idopont) {
+            Rendez::create([
+                'esemeny_id' => $validated['esemeny_id'],
+                'datum' => $idopont['datum'],
+                'nyitva' => $idopont['nyitva'],
+            ]);
+        }
+    
+        return response()->json([
+            'message' => 'Időpontok sikeresen mentve.',
+        ]);
+    }
+
+    public function allHostDates($egyeni_vegpont){
+        $data = DB::table('rendez')
+        ->join('esemeny', 'rendez.esemeny_id', '=', 'esemeny.esemeny_id')
+        ->join('users', 'esemeny.user_id', '=', 'users.id')
+        ->where('users.egyeni_vegpont', '=', $egyeni_vegpont)
+        ->get();
+
+        return $data;
+    }
+
+    public function storeEventHost(Request $request)
+    {
+    $request->validate([
+        'esemeny_id' => 'required|integer',
+        'datum' => 'required|date|after:today',
+        'nyitva' => 'required|boolean',
+    ]);
+    $data = $request->all();
+    Rendez::create([
+        'esemeny_id' => $data['esemeny_id'],
+        'datum' => Carbon::createFromFormat('Y-m-d H:i:s', $data['datum']),
+        'nyitva' => $data['nyitva'] ?? false,
+    ]);
+    return response()->json(['message' => 'Esemény sikeresen mentve'], 201);
+    }
+
+
+    /*public function modifyEventData(){
         getUsersEvents
     }*/
 }
