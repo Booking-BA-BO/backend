@@ -27,6 +27,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::get('/user-data/{egyeni_vegpont}', [AuthController::class, 'returnUser']);
 Route::patch('/modify-user-data/{user_id}', [AuthController::class, 'modifyUserData']);
 
+Route::patch('/change-password/{user_id}', [AuthController::class, 'changePassword']);
 
 // Esemény táblára vonatkozó végpontok 
 Route::get('/topevents/{user_id}', [EsemenyController::class, 'getTopUserEvents']);
@@ -47,7 +48,6 @@ Route::post('/add-event', [RendezController::class, 'storeEventHost']);
 
 
 // Foglalas táblára vonatkozó végpontok 
-Route::get('/', [FoglalasController::class, '']);
 
 
 //email küldés
