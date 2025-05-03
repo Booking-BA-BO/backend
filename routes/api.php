@@ -16,13 +16,13 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    // User related routes
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user-data/{egyeni_vegpont}', [AuthController::class, 'returnUser']);
     Route::patch('/modify-user-data/{user_id}', [AuthController::class, 'modifyUserData']);
+    Route::patch('/change-password/{user_id}', [AuthController::class, 'changePassword']);
 
     // Esemény táblára vonatkozó végpontok 
     Route::get('/topevents/{user_id}', [EsemenyController::class, 'getTopUserEvents']);
@@ -40,8 +40,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/all-event-dates/{event_id}', [RendezController::class, 'getSpecEventDates']);
     Route::post('/add-event', [RendezController::class, 'storeEventHost']);
 
-// Foglalas táblára vonatkozó végpontok 
-Route::get('/', [FoglalasController::class, '']);
+    // Foglalas táblára vonatkozó végpontok 
+    Route::get('/', [FoglalasController::class, '']);
+});
 
 
 Route::post('/contact', [ContactController::class, 'send']);
