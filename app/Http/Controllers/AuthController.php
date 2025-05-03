@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class AuthController extends Controller
 {
@@ -92,5 +94,36 @@ class AuthController extends Controller
             'message' => 'Felhasználói adatok sikeresen frissítve.',
             'user' => $user,
         ]);
+    }
+
+    public function changePassword(Request $request, $user_id)
+    {
+        $user = User::find($user_id);
+    
+        if (!$user) {
+            return response()->json(['message' => 'Felhasználó nem található.'], 404);
+        }
+    
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed',
+        ], [
+            'new_password.confirmed' => 'Az új jelszavak nem egyeznek.',
+            'new_password.min' => 'Az új jelszónak legalább 8 karakter hosszúnak kell lennie.',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()->first()], 422);
+        }
+    
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json(['message' => 'A jelenlegi jelszó hibás.'], 403);
+        }
+    
+        $user->password = Hash::make($request->new_password);
+        $user->password_change = now();
+        $user->save();
+    
+        return response()->json(['message' => 'Jelszó sikeresen megváltoztatva.'], 200);
     }
 }

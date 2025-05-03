@@ -40,9 +40,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/all-event-dates/{event_id}', [RendezController::class, 'getSpecEventDates']);
     Route::post('/add-event', [RendezController::class, 'storeEventHost']);
 
-    // Foglalas táblára vonatkozó végpontok 
-    Route::get('/', [FoglalasController::class, '']);
-});
+// Foglalas táblára vonatkozó végpontok 
+Route::get('/', [FoglalasController::class, '']);
 
 
 Route::post('/contact', [ContactController::class, 'send']);
