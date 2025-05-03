@@ -36,7 +36,6 @@ class EsemenyController extends Controller
         return $data;
     }
 
-
     //minden eventet visszaad felhasználótól függetlenül
     public function getEvents()
     {
@@ -48,17 +47,6 @@ class EsemenyController extends Controller
     {
         $data = DB::table('esemeny')
             ->where('esemeny_id', '=', $esemeny_id)
-            ->get();
-
-        return $data;
-    }
-
-    //minden felhasználó minden adatát visszaadja:
-    public function returnUser($egyeni_vegpont)
-    {
-        $data = DB::table('users')
-            ->where('egyeni_vegpont', '=', $egyeni_vegpont)
-            ->select('name', 'email')
             ->get();
 
         return $data;
@@ -82,32 +70,6 @@ class EsemenyController extends Controller
             ->get();
 
         return $data;
-    }
-
-    public function modifyUserData(Request $request, $user_id)
-    {
-        $user = User::findOrFail($user_id);
-
-        $validated = $request->validate([
-            'name' => 'nullable|string',
-            'vezetek_nev' => 'nullable|string|max:255',
-            'kereszt_nev' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255|unique:users,email,' . $user_id,
-            'telefon' => 'nullable|string|max:20',
-        ]);
-
-        $user->name = $validated['name'] ?? $user->name;
-        $user->vezetek_nev = $validated['vezetek_nev'] ?? $user->vezetek_nev;
-        $user->kereszt_nev = $validated['kereszt_nev'] ?? $user->kereszt_nev;
-        $user->email = $validated['email'] ?? $user->email;
-        $user->telefon = $validated['telefon'] ?? $user->telefon;
-
-        $user->save();
-
-        return response()->json([
-            'message' => 'Felhasználói adatok sikeresen frissítve.',
-            'user' => $user,
-        ]);
     }
 
     public function postNewEventType(Request $request)
@@ -172,39 +134,6 @@ class EsemenyController extends Controller
         ]);
     }
 
-    public function getSpecEventTimes($event_id)
-    {
-        $data = DB::table('rendez')
-            ->select('*')
-            ->where('esemeny_id', '=', $event_id)
-            ->get();
-
-        return $data;
-    }
-
-
-    public function postEventTimes(Request $request)
-    {
-        $validated = $request->validate([
-            'esemeny_id' => 'required|integer|exists:esemenyek,id',
-            'idopontok' => 'required|array|min:1',
-            'idopontok.*.datum' => 'required|date',
-            'idopontok.*.nyitva' => 'required|boolean',
-        ]);
-    
-        foreach ($validated['idopontok'] as $idopont) {
-            Rendez::create([
-                'esemeny_id' => $validated['esemeny_id'],
-                'datum' => $idopont['datum'],
-                'nyitva' => $idopont['nyitva'],
-            ]);
-        }
-    
-        return response()->json([
-            'message' => 'Időpontok sikeresen mentve.',
-        ]);
-    }
-
     public function allHostDates($egyeni_vegpont){
         $data = DB::table('rendez')
         ->join('esemeny', 'rendez.esemeny_id', '=', 'esemeny.esemeny_id')
@@ -214,25 +143,4 @@ class EsemenyController extends Controller
 
         return $data;
     }
-
-    public function storeEventHost(Request $request)
-    {
-    $request->validate([
-        'esemeny_id' => 'required|integer',
-        'datum' => 'required|date|after:today',
-        'nyitva' => 'required|boolean',
-    ]);
-    $data = $request->all();
-    Rendez::create([
-        'esemeny_id' => $data['esemeny_id'],
-        'datum' => Carbon::createFromFormat('Y-m-d H:i:s', $data['datum']),
-        'nyitva' => $data['nyitva'] ?? false,
-    ]);
-    return response()->json(['message' => 'Esemény sikeresen mentve'], 201);
-    }
-
-
-    /*public function modifyEventData(){
-        getUsersEvents
-    }*/
 }
