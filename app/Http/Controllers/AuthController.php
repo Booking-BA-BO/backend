@@ -132,4 +132,11 @@ class AuthController extends Controller
     
         return response()->json(['message' => 'Jelszó sikeresen megváltoztatva.'], 200);
     }
+
+    public function endpointExists($endpoint)
+    {
+        return response()->json(
+            User::where('egyeni_vegpont', $endpoint)->exists()
+        );
+    }
 }
