@@ -32,6 +32,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'vezetek_nev',
+        'kereszt_nev',
     ];
     
 
