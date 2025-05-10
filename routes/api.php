@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/modify-user-data/{user_id}', [AuthController::class, 'modifyUserData']);
     Route::patch('/change-password/{user_id}', [AuthController::class, 'changePassword']);
 
-    // Esemény táblára vonatkozó végpontok 
+    // Esemény tábla
     Route::get('/topevents/{user_id}', [EsemenyController::class, 'getTopUserEvents']);
     Route::get('/events', [EsemenyController::class, 'getEvents']);
     Route::get('/all-host-dates/{egyeni_vegpont}', [EsemenyController::class, 'allHostDates']);
@@ -34,13 +34,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/modify-event/{event_id}', [EsemenyController::class, 'modifyEventData']);
     Route::post('/new-event', [EsemenyController::class, 'postNewEventType']);
 
-    // Rendez táblára vonatkozó végpontok
+    // Rendez tábla
     Route::post('/event-times', [RendezController::class, 'postEventTimes']);
-    Route::get('/spec-events-hosts/{event_id}', [RendezController::class, 'getAllEventDates']);
-    Route::get('/all-event-dates/{event_id}', [RendezController::class, 'getSpecEventDates']);
+    Route::get('/spec-events-hosts/{event_id}', [RendezController::class, 'getSpecEventDates']);
+    Route::get('/all-event-dates/{event_id}', [RendezController::class, 'getAllEventDates']);
     Route::post('/add-event', [RendezController::class, 'storeEventHost']);
 
-    // Foglalas táblára vonatkozó végpontok 
+    // Foglalas tábla
     Route::get('/', [FoglalasController::class, '']);
 });
 
