@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/endpoint-exists/{endpoint}', [AuthController::class, 'endpointExists']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
@@ -23,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user-data/{egyeni_vegpont}', [AuthController::class, 'returnUser']);
     Route::patch('/modify-user-data/{user_id}', [AuthController::class, 'modifyUserData']);
     Route::patch('/change-password/{user_id}', [AuthController::class, 'changePassword']);
+
 
     // Esemény tábla
     Route::get('/topevents/{user_id}', [EsemenyController::class, 'getTopUserEvents']);

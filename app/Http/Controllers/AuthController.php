@@ -13,26 +13,32 @@ class AuthController extends Controller
 {
     public function register(Request $request){
         $fields = $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:users,name',
+            'kereszt_nev' => 'required|string|max:255',
+            'vezetek_nev' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|string|min:1'
         ]);
     
-        // Jelszó hashelése
         $fields['password'] = Hash::make($fields['password']);
     
-        // Felhasználó létrehozása
-        $user = User::create($fields);
+        $user = User::create([
+            'name' => $fields['name'],
+            'kereszt_nev' => $fields['kereszt_nev'],
+            'vezetek_nev' => $fields['vezetek_nev'],
+            'email' => $fields['email'],
+            'password' => $fields['password'],
+            
+        ]);
     
-        // Token generálása
-        /* $token = $user->createToken('auth_token')->plainTextToken; */
         $token = $user->createToken($request->name);
     
         return response()->json([
             'user' => $user,
             'token' => $token->plainTextToken
-        ]/* , 201 */);
+        ]);
     }
+    
 
     public function login(Request $request){
         $request->validate([
@@ -125,5 +131,12 @@ class AuthController extends Controller
         $user->save();
     
         return response()->json(['message' => 'Jelszó sikeresen megváltoztatva.'], 200);
+    }
+
+    public function endpointExists($endpoint)
+    {
+        return response()->json(
+            User::where('egyeni_vegpont', $endpoint)->exists()
+        );
     }
 }
