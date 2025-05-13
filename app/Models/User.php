@@ -34,8 +34,9 @@ class User extends Authenticatable
         'password',
         'vezetek_nev',
         'kereszt_nev',
+        'profile_picture',
     ];
-    
+
 
     /**
      * The attributes that should be hidden for serialization.

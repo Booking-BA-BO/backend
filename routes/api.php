@@ -11,12 +11,12 @@ use App\Models\Rendez;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/endpoint-exists/{endpoint}', [AuthController::class, 'endpointExists']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    // User routes
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
@@ -25,8 +25,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/modify-user-data/{user_id}', [AuthController::class, 'modifyUserData']);
     Route::patch('/change-password/{user_id}', [AuthController::class, 'changePassword']);
 
+    // Profile picture routes
+    Route::post('/upload-profile-picture', [AuthController::class, 'uploadProfilePicture']);
+    Route::delete('/delete-profile-picture', [AuthController::class, 'deleteProfilePicture']);
 
-    // Esemény tábla
+    // Event routes
     Route::get('/topevents/{user_id}', [EsemenyController::class, 'getTopUserEvents']);
     Route::get('/events', [EsemenyController::class, 'getEvents']);
     Route::get('/all-host-dates/{egyeni_vegpont}', [EsemenyController::class, 'allHostDates']);
@@ -36,16 +39,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/modify-event/{event_id}', [EsemenyController::class, 'modifyEventData']);
     Route::post('/new-event', [EsemenyController::class, 'postNewEventType']);
 
-    // Rendez tábla
+    // Event host routes
     Route::post('/event-times', [RendezController::class, 'postEventTimes']);
     Route::get('/spec-events-hosts/{event_id}', [RendezController::class, 'getSpecEventDates']);
     Route::get('/all-event-dates/{event_id}', [RendezController::class, 'getAllEventDates']);
     Route::post('/add-event', [RendezController::class, 'storeEventHost']);
 
-    // Foglalas tábla
+    // Booking routes
     Route::get('/', [FoglalasController::class, '']);
 });
-
 
 Route::post('/contact', [ContactController::class, 'send']);
 Route::post('/send-email', [MailController::class, 'sendEmail']);
